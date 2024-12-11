@@ -540,13 +540,13 @@ void TRam::setMode(bool manAuto)
     partageRam.status.mode = manAuto;
     partageRam.lock.release();
 
-    setPompe(0);
+    // setPompe(0);
 
-    setValveGrosBassin(100); // normalement ouverte
-    setValvePetitBassin(0);  // normalement fermee
+    // setValveGrosBassin(100); // normalement ouverte
+    // setValvePetitBassin(0);  // normalement fermee
 
-    setValveEauFroide(100); // normalement ouverte
-    setValveEauChaude(0);   // normalement fermee
+    // setValveEauFroide(100); // normalement ouverte
+    // setValveEauChaude(0);   // normalement fermee
 
     if (manAuto == 0) // auto
     {
