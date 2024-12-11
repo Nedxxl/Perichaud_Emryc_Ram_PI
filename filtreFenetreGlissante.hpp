@@ -8,7 +8,10 @@ class TFiltreFenetreGlissante
 	TFiltreFenetreGlissante(int fenetre = 3);
 	~TFiltreFenetreGlissante();
 
-	double filtre(double valAcquisition);
+	double filtreGB(double valAcquisition);
+    double filtrePB(double valAcquisition);
+    double filtreTempFroid(double valAcquisition);
+    double filtreTempChaud(double valAcquisition);
     };
 
 #endif // FILTRE_FENETRE_GLISSANTE_HPP

@@ -96,14 +96,14 @@ void TTaskMqtt::task(void)
             valveEauFroideState = 100 - ram->getValveEauFroide();
             mqtt->publish(NULL, "RAM/panneau/etats/ValveEF", to_string(static_cast<int>(valveEauFroideState)).length(), to_string(static_cast<int>(valveEauFroideState)).c_str());
         }
-        if (GB != ram->getNiveauGrosBassin())
+        if (GB != ram->getPartageRam()->status.filtreGB)
         {
-            GB = ram->getNiveauGrosBassin();
+            GB = ram->getPartageRam()->status.filtreGB;
             mqtt->publish(NULL, "RAM/panneau/etats/NivGB", to_string(GB).length(), to_string(GB).c_str());
         }
-        if (PB != ram->getNiveauPetitBassin())
+        if (PB != ram->getPartageRam()->status.filtrePB)
         {
-            PB = ram->getNiveauPetitBassin();
+            PB = ram->getPartageRam()->status.filtrePB;
             mqtt->publish(NULL, "RAM/panneau/etats/NivPB", to_string(PB).length(), to_string(PB).c_str());
         }
         if (TMP != ram->getTemperaturePetitBassin())
@@ -125,6 +125,16 @@ void TTaskMqtt::task(void)
         {
             consigneTMP = ram->getPartageRam()->status.consigneTemperaturePetitBassin;
             mqtt->publish(NULL, "RAM/panneau/etats/ConsTmpPB", to_string(static_cast<int>(consigneTMP)).length(), to_string(static_cast<int>(consigneTMP)).c_str());
+        }
+        if (ram->getPartageRam()->alarmeInfo.alarmeHighGbTrigger == 1)
+        {
+            ram->getPartageRam()->alarmeInfo.alarmeHighGbTrigger = 0;
+            mqtt->publish(NULL, "RAM/alarmes/états/ALR_GB_NIV_MAX", 2, "ON");
+        }
+        if (ram->getPartageRam()->alarmeInfo.alarmeHighPbTrigger == 1)
+        {
+            ram->getPartageRam()->alarmeInfo.alarmeHighPbTrigger = 0;
+            mqtt->publish(NULL, "RAM/alarmes/états/ALR_PB_NIV_MAX", 2, "ON");
         }
 
         if (strCar[0] == '|')

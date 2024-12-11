@@ -21,9 +21,21 @@ TRam::TRam(TScreen *s)
     partageRam.status.temperatureGrosBassin = 0;
     partageRam.status.temperaturePetitBassin = 0;
 
+    partageRam.status.filtreGB = 0;
+    partageRam.status.filtrePB = 0;
+    partageRam.status.filtreTempFroid = 0;
+    partageRam.status.filtreTempChaud = 0;
+
     partageRam.status.consigneNiveauGrosBassin = 0;
     partageRam.status.consigneNiveauPetitBassin = 0;
     partageRam.status.consigneTemperaturePetitBassin = 0;
+
+    partageRam.alarmeInfo.nvHighGB = 0;
+    partageRam.alarmeInfo.tmpHighGB = 0;
+    partageRam.alarmeInfo.nvHighPB = 0;
+    partageRam.alarmeInfo.tmpHighPB = 0;
+    partageRam.alarmeInfo.alarmeHighGbTrigger = 0;
+    partageRam.alarmeInfo.alarmeHighPbTrigger = 0;
 
     // init semaphore pour synchronisation
     partageRam.synControl = 0;
@@ -228,6 +240,34 @@ void TRam::setEauChaude(bool onOff)
         partageRam.lock.release();
     }
     com_1->releaseCom1();
+}
+
+void TRam::setFiltreGB(double val)
+{
+    partageRam.lock.take();
+    partageRam.status.filtreGB = val;
+    partageRam.lock.release();
+}
+
+void TRam::setFiltrePB(double val)
+{
+    partageRam.lock.take();
+    partageRam.status.filtrePB = val;
+    partageRam.lock.release();
+}
+
+void TRam::setFiltreTempFroid(double val)
+{
+    partageRam.lock.take();
+    partageRam.status.filtreTempFroid = val;
+    partageRam.lock.release();
+}
+
+void TRam::setFiltreTempChaud(double val)
+{
+    partageRam.lock.take();
+    partageRam.status.filtreTempChaud = val;
+    partageRam.lock.release();
 }
 
 bool TRam::getPompe(void)
@@ -530,6 +570,35 @@ bool TRam::getMode(void)
 
     return retour;
 }
+
+void TRam::setAlarmeHighGb(int nvHighGB)
+{
+    partageRam.lock.take();
+    partageRam.alarmeInfo.nvHighGB = nvHighGB;
+    partageRam.lock.release();
+}
+
+void TRam::setAlarmeTmpHighGb(int tmpHighGB)
+{
+    partageRam.lock.take();
+    partageRam.alarmeInfo.tmpHighGB = tmpHighGB;
+    partageRam.lock.release();
+}
+
+void TRam::setAlarmeHighPb(int nvHighPB)
+{
+    partageRam.lock.take();
+    partageRam.alarmeInfo.nvHighPB = nvHighPB;
+    partageRam.lock.release();
+}
+
+void TRam::setAlarmeTmpHighPb(int tmpHighPB)
+{
+    partageRam.lock.take();
+    partageRam.alarmeInfo.tmpHighPB = tmpHighPB;
+    partageRam.lock.release();
+}
+
 
 void TRam::setConsigneNiveauGrosBassin(double niveauPourcent)
 {

@@ -31,32 +31,38 @@ void TAlarme::task(void)
         if (ram->getDebordementGrosBassin() == 0)
         {
             temps.startMesure();
-            if (temps.mesure_us() >= 1500000)
+            if (temps.mesure_us() >= 1000000)
                 ram->setPompe(false);
         }
-        else
-        {
-            temps.stopMesure();
-        }
-        if (ram->getDebordementPetitBassin() == 0)
+        else if (ram->getDebordementPetitBassin() == 0)
         {
             temps.startMesure();
-            if (temps.mesure_us() >= 1500000)
+            if (temps.mesure_us() >= 1000000)
             {
                 ram->setPompe(false);
                 ram->setEauChaude(false);
                 ram->setEauFroide(false);
             }
         }
+        else if (ram->getNiveauGrosBassin() > ram->getPartageRam()->alarmeInfo.nvHighGB)
+        {
+            temps.startMesure();
+            if (temps.mesure_us() >= (ram->getPartageRam()->alarmeInfo.tmpHighGB*1000000))
+            {
+                ram->getPartageRam()->alarmeInfo.alarmeHighGbTrigger = 1;
+            }
+        }
+        else if (ram->getNiveauPetitBassin() > ram->getPartageRam()->alarmeInfo.nvHighPB)
+        {
+            temps.startMesure();
+            if (temps.mesure_us() >= (ram->getPartageRam()->alarmeInfo.tmpHighPB*1000000))
+            {
+                ram->getPartageRam()->alarmeInfo.alarmeHighPbTrigger = 1;
+            }
+        }
         else
         {
             temps.stopMesure();
         }
-
-        if (strCar[0] == '|')
-            strCar[0] = '-';
-        else
-            strCar[0] = '|';
-        screen->dispStr(11, 6, strCar);
     }
 }

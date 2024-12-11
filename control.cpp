@@ -27,6 +27,8 @@ void TControl::task(void)
     double valuePB;
     double valueTempFroid;
     double valueTempChaud;
+    double filtreGbValue;
+    double filtrePbValue;
 
     // synchronisation démarrage tâche
     signalStart();
@@ -39,10 +41,14 @@ void TControl::task(void)
 	//traitement
     if(ram->getMode() == 0)
     {
-        valueGB = pidGros.compute(partageRam->status.consigneNiveauGrosBassin, partageRam->status.niveauGrosBassin);
+        filtreGbValue = filtre.filtreGB(partageRam->status.niveauGrosBassin);
+        valueGB = pidGros.compute(partageRam->status.consigneNiveauGrosBassin, filtreGbValue);
         ram->setValveGrosBassin(100-valueGB);
-        valuePB = pidPetit.compute(partageRam->status.consigneNiveauPetitBassin, partageRam->status.niveauPetitBassin);
+        ram->setFiltreGB(filtreGbValue);
+        filtrePbValue = filtre.filtrePB(partageRam->status.niveauPetitBassin);
+        valuePB = pidPetit.compute(partageRam->status.consigneNiveauPetitBassin, filtrePbValue);
         ram->setValvePetitBassin(valuePB);
+        ram->setFiltrePB(filtrePbValue);
         //temperature
     }
 

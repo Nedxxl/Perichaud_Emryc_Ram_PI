@@ -28,6 +28,10 @@ class TMqtt : public mosqpp::mosquittopp
 		void consigneGb(std::string val);
 		void consignePb(std::string val);
 		void consigneTempPb(std::string val);
+		void alarmeHighGB(std::string val);
+		void alarmeHighPB(std::string val);
+		void alarmeTmpGB(std::string val);
+		void alarmeTmpPB(std::string val);
 
     public:
 		TMqtt(void *shared,const char *id,char *host,int port = 1883);

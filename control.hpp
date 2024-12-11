@@ -13,6 +13,7 @@ class TControl : public TThread
 	TScreen *screen;
 	TRam *ram;
 	TRam::partageRam_t *partageRam;
+	TFiltreFenetreGlissante filtre;
 
     public:
 	TControl(const char *name,void *shared,int policy,int priority,int noCpu = -1);
