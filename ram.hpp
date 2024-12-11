@@ -146,6 +146,8 @@ public:
 	void setAlarmeHighPb(int nvHighPB);
 	void setAlarmeTmpHighGb(int tmpHighGB);
 	void setAlarmeTmpHighPb(int tmpHighPB);
+	void setAlarmeHighGbTrigger(bool trigger);
+	void setAlarmeHighPbTrigger(bool trigger);
 
 	void setFiltreGB(double val);
 	void setFiltrePB(double val);

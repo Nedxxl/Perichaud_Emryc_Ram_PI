@@ -599,6 +599,19 @@ void TRam::setAlarmeTmpHighPb(int tmpHighPB)
     partageRam.lock.release();
 }
 
+void TRam::setAlarmeHighGbTrigger(bool trigger)
+{
+    partageRam.lock.take();
+    partageRam.alarmeInfo.alarmeHighGbTrigger = trigger;
+    partageRam.lock.release();
+}
+
+void TRam::setAlarmeHighPbTrigger(bool trigger)
+{
+    partageRam.lock.take();
+    partageRam.alarmeInfo.alarmeHighPbTrigger = trigger;
+    partageRam.lock.release();
+}
 
 void TRam::setConsigneNiveauGrosBassin(double niveauPourcent)
 {

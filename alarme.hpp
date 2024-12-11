@@ -12,7 +12,10 @@ class TAlarme : public TThread
 	TScreen *screen;
 	TRam *ram;
 	TRam::partageRam_t *partageRam;
-	TTemps temps;
+	TTemps tempsGB;
+	TTemps tempsPB;
+	bool activerTempGB;
+	bool activerTempPB;
 
     public:
 	TAlarme(const char *name,void *shared,int policy,int priority,int noCpu = -1);
