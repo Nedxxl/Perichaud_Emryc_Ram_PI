@@ -21,14 +21,16 @@ void TControl::task(void)
     char strCar[2] = {'-','\0'};
     TPid pidGros(4.5,1.11111,0.05,0.0,100.0);
     TPid pidPetit(2.0,0.75,0.05,0.0,100.0);
-    TPid pidTempFroid(1.0,0.1,1.0,0.0,100.0);
-    TPid pidTempChaud(1.0,0.1,1.0,0.0,100.0);
+    TPid pidTempFroid(10.0,0.5,0.05,0.0,100.0);
+    TPid pidTempChaud(10.0,0.5,0.05,0.0,100.0);
     double valueGB;
     double valuePB;
     double valueTempFroid;
     double valueTempChaud;
     double filtreGbValue;
     double filtrePbValue;
+    double filtreTempFroidValue;
+    double filtreTempChaudValue;
 
     // synchronisation démarrage tâche
     signalStart();
@@ -50,6 +52,14 @@ void TControl::task(void)
         ram->setValvePetitBassin(valuePB);
         ram->setFiltrePB(filtrePbValue);
         //temperature
+        filtreTempFroidValue = filtre.filtreTempFroid(partageRam->status.temperaturePetitBassin);
+        valueTempFroid = pidTempFroid.compute(partageRam->status.consigneTemperaturePetitBassin, filtreTempFroidValue);
+        ram->setValveEauFroide(valueTempFroid);
+        ram->setFiltreTempFroid(filtreTempFroidValue);
+        filtreTempChaudValue = filtre.filtreTempChaud(partageRam->status.temperatureGrosBassin);
+        valueTempChaud = pidTempChaud.compute(partageRam->status.consigneTemperaturePetitBassin, filtreTempChaudValue);
+        ram->setValveEauChaude(valueTempChaud);
+        ram->setFiltreTempChaud(filtreTempChaudValue);
     }
 
 
