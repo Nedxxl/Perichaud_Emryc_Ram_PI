@@ -46,7 +46,7 @@ void TTaskMqtt::task(void)
     double consigneTMP;
     bool ovf_gb = false;
     bool ovf_pb = false;
-    bool mode = false;
+    // bool mode = false;
     char grosBassin[7];
     char  petitBassin[7];
 
