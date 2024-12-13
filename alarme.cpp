@@ -22,7 +22,7 @@ void TAlarme::task(void)
     bool highPbOnce = false;
 
     bool activerTempGB;
-	bool activerTempPB;
+    bool activerTempPB;
     bool activerRepGB;
     bool activerRepPB;
 
@@ -47,24 +47,24 @@ void TAlarme::task(void)
         }
         if (ram->getNiveauGrosBassin() > ram->getPartageRam()->alarmeInfo.nvHighGB)
         {
-            if(ram->getPartageRam()->alarmeInfo.ackGB == false)
+            if (ram->getPartageRam()->alarmeInfo.ackGB == false)
             {
-            if (activerTempGB == false)
-            {
-                tempsGB.startMesure();
-                activerTempGB = true;
+                if (activerTempGB == false)
+                {
+                    tempsGB.startMesure();
+                    activerTempGB = true;
+                }
+                tempsGB.stopMesure();
+                if ((tempsGB.mesure_us() >= (ram->getPartageRam()->alarmeInfo.tmpHighGB * 1000000)) && (highGbOnce == false))
+                {
+                    highGbOnce = true;
+                    activerTempGB = false;
+                    ram->setAlarmeHighGbTrigger(true);
+                }
             }
-            tempsGB.stopMesure();
-            if ((tempsGB.mesure_us() >= (ram->getPartageRam()->alarmeInfo.tmpHighGB * 1000000)) && (highGbOnce == false))
+            else if (ram->getPartageRam()->alarmeInfo.ackGB == true)
             {
-                highGbOnce = true;
-                activerTempGB = false;
-                ram->setAlarmeHighGbTrigger(true);
-            }
-            }
-            else if(ram->getPartageRam()->alarmeInfo.ackGB == true)
-            {
-                if(activerRepGB == false)
+                if (activerRepGB == false)
                 {
                     tempsGB.startMesure();
                     activerRepGB = true;
@@ -100,9 +100,9 @@ void TAlarme::task(void)
                     ram->setAlarmeHighPbTrigger(true);
                 }
             }
-            else if(ram->getPartageRam()->alarmeInfo.ackPB == true)
+            else if (ram->getPartageRam()->alarmeInfo.ackPB == true)
             {
-                if(activerRepPB == false)
+                if (activerRepPB == false)
                 {
                     tempsPB.startMesure();
                     activerRepPB = true;
