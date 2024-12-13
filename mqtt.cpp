@@ -23,6 +23,10 @@ TMqtt::TMqtt(void *shared, const char *id, char *host, int port) : mosqpp::mosqu
 	mqttTable["RAM/alarmes/cmd/NivLhPB"] = &TMqtt::alarmeHighPB;
 	mqttTable["RAM/alarmes/cmd/TgNivGB"] = &TMqtt::alarmeTmpGB;
 	mqttTable["RAM/alarmes/cmd/TgNivPB"] = &TMqtt::alarmeTmpPB;
+	mqttTable["RAM/alarmes/cmd/TrigNivGB"] = &TMqtt::alarmeRepGB;
+	mqttTable["RAM/alarmes/cmd/TrigNivPB"] = &TMqtt::alarmeRepPB;
+	mqttTable["RAM/alarmes/états/ALR_GB_NIV_MAX"] = &TMqtt::ackGB;
+	mqttTable["RAM/alarmes/états/ALR_PB_NIV_MAX"] = &TMqtt::ackPB;
 
 	mosqpp::lib_init();
 
@@ -178,4 +182,26 @@ void TMqtt::alarmeTmpGB(string val)
 void TMqtt::alarmeTmpPB(string val)
 {
 	ram->setAlarmeTmpHighPb(stoi(val));
+}
+
+void TMqtt::alarmeRepGB(string val)
+{
+	ram->setAlarmeTmpRepGb(stoi(val));
+}
+
+void TMqtt::alarmeRepPB(string val)
+{
+	ram->setAlarmeTmpRepPb(stoi(val));
+}
+
+void TMqtt::ackGB(string val)
+{
+	if (val == "ACK")
+		ram->setAckGB(true);
+}
+
+void TMqtt::ackPB(string val)
+{
+	if (val == "ACK")
+		ram->setAckPB(true);
 }

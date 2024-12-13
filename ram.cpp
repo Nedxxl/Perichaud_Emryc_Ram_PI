@@ -30,10 +30,12 @@ TRam::TRam(TScreen *s)
     partageRam.status.consigneNiveauPetitBassin = 0;
     partageRam.status.consigneTemperaturePetitBassin = 0;
 
-    partageRam.alarmeInfo.nvHighGB = 0;
-    partageRam.alarmeInfo.tmpHighGB = 0;
-    partageRam.alarmeInfo.nvHighPB = 0;
-    partageRam.alarmeInfo.tmpHighPB = 0;
+    partageRam.alarmeInfo.nvHighGB = 50;
+    partageRam.alarmeInfo.tmpHighGB = 3;
+    partageRam.alarmeInfo.tmpRepGB = 3;
+    partageRam.alarmeInfo.nvHighPB = 50;
+    partageRam.alarmeInfo.tmpHighPB = 3;
+    partageRam.alarmeInfo.tmpRepGB = 3;
     partageRam.alarmeInfo.alarmeHighGbTrigger = 0;
     partageRam.alarmeInfo.alarmeHighPbTrigger = 0;
 
@@ -610,6 +612,34 @@ void TRam::setAlarmeHighPbTrigger(bool trigger)
 {
     partageRam.lock.take();
     partageRam.alarmeInfo.alarmeHighPbTrigger = trigger;
+    partageRam.lock.release();
+}
+
+void TRam::setAlarmeTmpRepGb(int tmpRepGB)
+{
+    partageRam.lock.take();
+    partageRam.alarmeInfo.tmpRepGB = tmpRepGB;
+    partageRam.lock.release();
+}
+
+void TRam::setAlarmeTmpRepPb(int tmpRepPB)
+{
+    partageRam.lock.take();
+    partageRam.alarmeInfo.tmpRepPB = tmpRepPB;
+    partageRam.lock.release();
+}
+
+void TRam::setAckGB(bool ack)
+{
+    partageRam.lock.take();
+    partageRam.alarmeInfo.ackGB = ack;
+    partageRam.lock.release();
+}
+
+void TRam::setAckPB(bool ack)
+{
+    partageRam.lock.take();
+    partageRam.alarmeInfo.ackPB = ack;
     partageRam.lock.release();
 }
 

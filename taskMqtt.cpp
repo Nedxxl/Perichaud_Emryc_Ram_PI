@@ -96,6 +96,8 @@ void TTaskMqtt::task(void)
             valveEauFroideState = 100 - ram->getValveEauFroide();
             mqtt->publish(NULL, "RAM/panneau/etats/ValveEF", to_string(static_cast<int>(valveEauFroideState)).length(), to_string(static_cast<int>(valveEauFroideState)).c_str());
         }
+        if(ram->getMode() == 0)
+        {
         if (GB != ram->getPartageRam()->status.filtreGB)
         {
             GB = ram->getPartageRam()->status.filtreGB;
@@ -105,6 +107,20 @@ void TTaskMqtt::task(void)
         {
             PB = ram->getPartageRam()->status.filtrePB;
             mqtt->publish(NULL, "RAM/panneau/etats/NivPB", to_string(PB).length(), to_string(PB).c_str());
+        }
+        }
+        else if (ram->getMode() == 1)
+        {
+            if (GB != ram->getNiveauGrosBassin())
+            {
+                GB = ram->getNiveauGrosBassin();
+                mqtt->publish(NULL, "RAM/panneau/etats/NivGB", to_string(GB).length(), to_string(GB).c_str());
+            }
+            if (PB != ram->getNiveauPetitBassin())
+            {
+                PB = ram->getNiveauPetitBassin();
+                mqtt->publish(NULL, "RAM/panneau/etats/NivPB", to_string(PB).length(), to_string(PB).c_str());
+            }
         }
         if (TMP != ram->getTemperaturePetitBassin())
         {

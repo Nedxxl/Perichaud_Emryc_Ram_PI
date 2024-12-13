@@ -75,8 +75,12 @@ public:
 	{
 		int nvHighGB;
 		int tmpHighGB;
+		int tmpRepGB;
 		int nvHighPB;
 		int tmpHighPB;
+		int tmpRepPB;
+		bool ackGB;
+		bool ackPB;		
 
 		bool alarmeHighGbTrigger;
 		bool alarmeHighPbTrigger;
@@ -146,8 +150,12 @@ public:
 	void setAlarmeHighPb(int nvHighPB);
 	void setAlarmeTmpHighGb(int tmpHighGB);
 	void setAlarmeTmpHighPb(int tmpHighPB);
+	void setAlarmeTmpRepGb(int tmpRepGB);
+	void setAlarmeTmpRepPb(int tmpRepPB);
 	void setAlarmeHighGbTrigger(bool trigger);
 	void setAlarmeHighPbTrigger(bool trigger);
+	void setAckGB(bool ack);
+	void setAckPB(bool ack);
 
 	void setFiltreGB(double val);
 	void setFiltrePB(double val);
