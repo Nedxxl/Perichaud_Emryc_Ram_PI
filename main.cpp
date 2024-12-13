@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
   {
     // Traitement
     ram->getStatusRam(&statusRam);
-    //mode = statusRam.mode;
+    // mode = statusRam.mode;
     pompe = statusRam.pompe;
     eec = statusRam.eauChaude;
     eef = statusRam.eauFroide;
@@ -125,28 +125,46 @@ int main(int argc, char *argv[])
           ram->setEauFroide(eef);
           break;
         case 'a':
-          consigneGb += 5;
-          ram->setConsigneNiveauGrosBassin(consigneGb);
+          if (consigneGb < 100)
+          {
+            consigneGb += 5;
+            ram->setConsigneNiveauGrosBassin(consigneGb);
+          }
           break;
         case 'A':
-          consigneGb -= 5;
-          ram->setConsigneNiveauGrosBassin(consigneGb);
+          if (consigneGb > 0)
+          {
+            consigneGb -= 5;
+            ram->setConsigneNiveauGrosBassin(consigneGb);
+          }
           break;
         case 's':
-          consignePb += 5;
-          ram->setConsigneNiveauPetitBassin(consignePb);
+          if (consignePb < 100)
+          {
+            consignePb += 5;
+            ram->setConsigneNiveauPetitBassin(consignePb);
+          }
           break;
         case 'S':
-          consignePb -= 5;
-          ram->setConsigneNiveauPetitBassin(consignePb);
+          if (consignePb > 0)
+          {
+            consignePb -= 5;
+            ram->setConsigneNiveauPetitBassin(consignePb);
+          }
           break;
         case 'd':
-          consigneTempPb += 5;
-          ram->setConsigneTemperaturePetitBassin(consigneTempPb);
+          if (consigneTempPb < 50)
+          {
+            consigneTempPb += 5;
+            ram->setConsigneTemperaturePetitBassin(consigneTempPb);
+          }
           break;
         case 'D':
-          consigneTempPb -= 5;
-          ram->setConsigneTemperaturePetitBassin(consigneTempPb);
+          if (consigneTempPb > 0)
+          {
+            consigneTempPb -= 5;
+            ram->setConsigneTemperaturePetitBassin(consigneTempPb);
+          }
           break;
         default:
           break;
@@ -157,39 +175,63 @@ int main(int argc, char *argv[])
         switch (car)
         {
         case 'z':
-          valveGb += 5;
-          ram->setValveGrosBassin(100-valveGb);
+          if (valveGb < 100)
+          {
+            valveGb += 5;
+            ram->setValveGrosBassin(100 - valveGb);
+          }
           break;
         case 'Z':
-          valveGb -= 5;
-          ram->setValveGrosBassin(100-valveGb);
+          if (valveGb > 0)
+          {
+            valveGb -= 5;
+            ram->setValveGrosBassin(100 - valveGb);
+          }
           break;
         case 'x':
-          valvePb += 5;
-          ram->setValvePetitBassin(valvePb);
+          if (valvePb < 100)
+          {
+            valvePb += 5;
+            ram->setValvePetitBassin(valvePb);
+          }
           break;
         case 'X':
-          valvePb -= 5;
-          ram->setValvePetitBassin(valvePb);
+          if (valvePb > 0)
+          {
+            valvePb -= 5;
+            ram->setValvePetitBassin(valvePb);
+          }
           break;
         case 'c':
-          valveEauFroide += 5;
-          ram->setValveEauFroide(valveEauFroide);
+          if (valveEauFroide < 100)
+          {
+            valveEauFroide += 5;
+            ram->setValveEauFroide(valveEauFroide);
+          }
           break;
         case 'C':
-          valveEauFroide -= 5;
-          ram->setValveEauFroide(valveEauFroide);
+          if (valveEauFroide > 0)
+          {
+            valveEauFroide -= 5;
+            ram->setValveEauFroide(valveEauFroide);
+          }
           break;
         case 'v':
-          valveEauChaude += 5;
-          ram->setValveEauChaude(valveEauChaude);
+          if (valveEauChaude < 100)
+          {
+            valveEauChaude += 5;
+            ram->setValveEauChaude(valveEauChaude);
+          }
           break;
         case 'V':
-          valveEauChaude -= 5;
-          ram->setValveEauChaude(valveEauChaude);
+          if (valveEauChaude > 0)
+          {
+            valveEauChaude -= 5;
+            ram->setValveEauChaude(valveEauChaude);
+          }
           break;
         default:
-          break;        
+          break;
         }
       }
     }
