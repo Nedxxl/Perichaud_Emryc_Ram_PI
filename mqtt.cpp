@@ -23,8 +23,8 @@ TMqtt::TMqtt(void *shared, const char *id, char *host, int port) : mosqpp::mosqu
 	mqttTable["RAM/alarmes/cmd/NivLhPB"] = &TMqtt::alarmeHighPB;
 	mqttTable["RAM/alarmes/cmd/TgNivGB"] = &TMqtt::alarmeTmpGB;
 	mqttTable["RAM/alarmes/cmd/TgNivPB"] = &TMqtt::alarmeTmpPB;
-	mqttTable["RAM/alarmes/cmd/TrigNivGB"] = &TMqtt::alarmeRepGB;
-	mqttTable["RAM/alarmes/cmd/TrigNivPB"] = &TMqtt::alarmeRepPB;
+	mqttTable["RAM/alarmes/cmd/TrNivGB"] = &TMqtt::alarmeRepGB;
+	mqttTable["RAM/alarmes/cmd/TrNivPB"] = &TMqtt::alarmeRepPB;
 	mqttTable["RAM/alarmes/états/ALR_GB_NIV_MAX"] = &TMqtt::ackGB;
 	mqttTable["RAM/alarmes/états/ALR_PB_NIV_MAX"] = &TMqtt::ackPB;
 

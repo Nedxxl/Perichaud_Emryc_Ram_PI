@@ -45,9 +45,12 @@ void TAlarme::task(void)
             ram->setEauChaude(false);
             ram->setEauFroide(false);
         }
+        screen->dispStr(11, 10, ram->getPartageRam()->alarmeInfo.ackGB);
+        screen->dispStr(11, 11, ram->getPartageRam()->alarmeInfo.tmpHighGB);
+        screen->dispStr(11, 12, ram->getPartageRam()->alarmeInfo.tmpRepGB);
+        screen->dispStr(11, 13, tempsGB.mesure_us()/1000000);
         if (ram->getNiveauGrosBassin() > ram->getPartageRam()->alarmeInfo.nvHighGB)
         {
-            screen->dispStr(11, 10, ram->getPartageRam()->alarmeInfo.ackGB);
             if (ram->getPartageRam()->alarmeInfo.ackGB == false)
             {
                 if (activerTempGB == false)
