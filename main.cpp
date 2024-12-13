@@ -23,7 +23,18 @@ int main(int argc, char *argv[])
 {
   char car;
   int noCpu = 0;
-  bool toggle = false;
+  bool pompe = false;
+  bool mode = false;
+  bool eec = false;
+  bool eef = false;
+  int consigneGb = 0;
+  int consignePb = 0;
+  int consigneTempPb = 0;
+  int valveGb = 0;
+  int valvePb = 0;
+  int valveEauFroide = 0;
+  int valveEauChaude = 0;
+
   TRam::ram_t statusRam;
 
   // Initialisation task Principal
@@ -73,7 +84,17 @@ int main(int argc, char *argv[])
   {
     // Traitement
     ram->getStatusRam(&statusRam);
-
+    //mode = statusRam.mode;
+    pompe = statusRam.pompe;
+    eec = statusRam.eauChaude;
+    eef = statusRam.eauFroide;
+    consigneGb = statusRam.consigneNiveauGrosBassin;
+    consignePb = statusRam.consigneNiveauPetitBassin;
+    consigneTempPb = statusRam.consigneTemperaturePetitBassin;
+    valveGb = statusRam.valveGrosBassin;
+    valvePb = statusRam.valvePetitBassin;
+    valveEauFroide = statusRam.valveEauFroide;
+    valveEauChaude = statusRam.valveEauChaude;
     // ...
 
     // clavier
@@ -81,15 +102,111 @@ int main(int argc, char *argv[])
     {
       car = clavier->getch();
 
-      if (car == 'p')
+      if (car == 'q')
       {
-        toggle = !toggle;
-        ram->setPompe(toggle);
+        mode = !mode;
+        ram->setMode(mode);
+      }
+
+      if (mode == 0)
+      {
+        switch (car)
+        {
+        case 'w':
+          pompe = !pompe;
+          ram->setPompe(pompe);
+          break;
+        case 'e':
+          eec = !eec;
+          ram->setEauChaude(eec);
+          break;
+        case 'r':
+          eef = !eef;
+          ram->setEauFroide(eef);
+          break;
+        case 'a':
+          consigneGb += 5;
+          ram->setConsigneNiveauGrosBassin(consigneGb);
+          break;
+        case 'A':
+          consigneGb -= 5;
+          ram->setConsigneNiveauGrosBassin(consigneGb);
+          break;
+        case 's':
+          consignePb += 5;
+          ram->setConsigneNiveauPetitBassin(consignePb);
+          break;
+        case 'S':
+          consignePb -= 5;
+          ram->setConsigneNiveauPetitBassin(consignePb);
+          break;
+        case 'd':
+          consigneTempPb += 5;
+          ram->setConsigneTemperaturePetitBassin(consigneTempPb);
+          break;
+        case 'D':
+          consigneTempPb -= 5;
+          ram->setConsigneTemperaturePetitBassin(consigneTempPb);
+          break;
+        default:
+          break;
+        }
+      }
+      else if (mode == 1)
+      {
+        switch (car)
+        {
+        case 'z':
+          valveGb += 5;
+          ram->setValveGrosBassin(100-valveGb);
+          break;
+        case 'Z':
+          valveGb -= 5;
+          ram->setValveGrosBassin(100-valveGb);
+          break;
+        case 'x':
+          valvePb += 5;
+          ram->setValvePetitBassin(valvePb);
+          break;
+        case 'X':
+          valvePb -= 5;
+          ram->setValvePetitBassin(valvePb);
+          break;
+        case 'c':
+          valveEauFroide += 5;
+          ram->setValveEauFroide(valveEauFroide);
+          break;
+        case 'C':
+          valveEauFroide -= 5;
+          ram->setValveEauFroide(valveEauFroide);
+          break;
+        case 'v':
+          valveEauChaude += 5;
+          ram->setValveEauChaude(valveEauChaude);
+          break;
+        case 'V':
+          valveEauChaude -= 5;
+          ram->setValveEauChaude(valveEauChaude);
+          break;
+        default:
+          break;        
+        }
       }
     }
+    screen->dispStr(1, 9, "Mode (q): " + to_string(mode) + "  ");
+    screen->dispStr(1, 10, "Pompe (w): " + to_string(pompe) + "  ");
+    screen->dispStr(1, 11, "EEC (e): " + to_string(eec) + "  ");
+    screen->dispStr(1, 12, "EEF (r): " + to_string(eef) + "  ");
+    screen->dispStr(1, 13, "ConsNivGB (a = +5)(A = -5): " + to_string(consigneGb) + "  ");
+    screen->dispStr(1, 14, "ConsNivPB (s = +5)(S = -5): " + to_string(consignePb) + "  ");
+    screen->dispStr(1, 15, "ConsTmpPB (d = +5)(D = -5): " + to_string(consigneTempPb) + "  ");
+    screen->dispStr(1, 16, "ValveGB (z = +5)(Z = -5): " + to_string(valveGb) + "  ");
+    screen->dispStr(1, 17, "ValvePB (x = +5)(X = -5): " + to_string(valvePb) + "  ");
+    screen->dispStr(1, 18, "ValveEF (c = +5)(C = -5): " + to_string(valveEauFroide) + "  ");
+    screen->dispStr(1, 19, "ValveEC (v = +5)(V = -5): " + to_string(valveEauChaude) + "  ");
 
     usleep(250000); // 250ms
-  } while ((car != 'q') && (car != 'Q'));
+  } while ((car != '|') && (car != '~'));
 
   ram->setMode(1); // manuel
   ram->init();

@@ -46,6 +46,9 @@ void TTaskMqtt::task(void)
     double consigneTMP;
     bool ovf_gb = false;
     bool ovf_pb = false;
+    bool mode = false;
+    char grosBassin[7];
+    char  petitBassin[7];
 
     // synchronisation démarrage tâche
     signalStart();
@@ -73,6 +76,11 @@ void TTaskMqtt::task(void)
         {
             ovf_pb = false;
         }
+        // if(mode != ram->getMode())
+        // {
+        //     mode = ram->getMode();
+        //     mqtt->publish(NULL, "RAM/panneau/etats/Mode", strlen(mode ? "manuel" : "auto"), mode ? "manuel" : "auto");
+        // }
         if (pompeState != (ram->getPompe() ? "on" : "off"))
         {
             pompeState = ram->getPompe() ? "on" : "off";
@@ -113,12 +121,14 @@ void TTaskMqtt::task(void)
         if (GB != ram->getPartageRam()->status.filtreGB)
         {
             GB = ram->getPartageRam()->status.filtreGB;
-            mqtt->publish(NULL, "RAM/panneau/etats/NivGB", to_string(GB).length(), to_string(GB).c_str());
+            sprintf(grosBassin, "%0.2f", GB);
+            mqtt->publish(NULL, "RAM/panneau/etats/NivGB", strlen(grosBassin), grosBassin);
         }
         if (PB != ram->getPartageRam()->status.filtrePB)
         {
             PB = ram->getPartageRam()->status.filtrePB;
-            mqtt->publish(NULL, "RAM/panneau/etats/NivPB", to_string(PB).length(), to_string(PB).c_str());
+            sprintf(petitBassin, "%0.2f", PB);
+            mqtt->publish(NULL, "RAM/panneau/etats/NivPB", strlen(petitBassin), petitBassin);
         }
         }
         else if (ram->getMode() == 1)
@@ -126,12 +136,14 @@ void TTaskMqtt::task(void)
             if (GB != ram->getNiveauGrosBassin())
             {
                 GB = ram->getNiveauGrosBassin();
-                mqtt->publish(NULL, "RAM/panneau/etats/NivGB", to_string(GB).length(), to_string(GB).c_str());
+                sprintf(grosBassin, "%0.2f", GB);
+                mqtt->publish(NULL, "RAM/panneau/etats/NivGB", strlen(grosBassin), grosBassin);
             }
             if (PB != ram->getNiveauPetitBassin())
             {
                 PB = ram->getNiveauPetitBassin();
-                mqtt->publish(NULL, "RAM/panneau/etats/NivPB", to_string(PB).length(), to_string(PB).c_str());
+                sprintf(petitBassin, "%0.2f", PB);
+                mqtt->publish(NULL, "RAM/panneau/etats/NivPB", strlen(petitBassin), petitBassin);
             }
         }
         if (TMP != ram->getTemperaturePetitBassin())

@@ -30,10 +30,10 @@ TRam::TRam(TScreen *s)
     partageRam.status.consigneNiveauPetitBassin = 0;
     partageRam.status.consigneTemperaturePetitBassin = 0;
 
-    partageRam.alarmeInfo.nvHighGB = 50;
+    partageRam.alarmeInfo.nvHighGB = 90;
     partageRam.alarmeInfo.tmpHighGB = 3;
     partageRam.alarmeInfo.tmpRepGB = 3;
-    partageRam.alarmeInfo.nvHighPB = 50;
+    partageRam.alarmeInfo.nvHighPB = 90;
     partageRam.alarmeInfo.tmpHighPB = 3;
     partageRam.alarmeInfo.tmpRepGB = 3;
     partageRam.alarmeInfo.alarmeHighGbTrigger = 0;
