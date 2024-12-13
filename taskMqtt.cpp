@@ -44,6 +44,8 @@ void TTaskMqtt::task(void)
     double consigneGB;
     double consignePB;
     double consigneTMP;
+    bool ovf_gb = false;
+    bool ovf_pb = false;
 
     // synchronisation démarrage tâche
     signalStart();
@@ -53,13 +55,23 @@ void TTaskMqtt::task(void)
     while (1)
     {
         // traitement
-        if (ram->getDebordementGrosBassin() == 0)
+        if (ram->getDebordementGrosBassin() == 0 && ovf_gb == false)
         {
+            ovf_gb = true;
             mqtt->publish(NULL, "RAM/alarmes/états/ALR_GB_OVF", 2, "ON");
         }
-        if (ram->getDebordementPetitBassin() == 0)
+        else
         {
+            ovf_gb = false;
+        }
+        if (ram->getDebordementPetitBassin() == 0 && ovf_pb == false)
+        {
+            ovf_pb = true;
             mqtt->publish(NULL, "RAM/alarmes/états/ALR_PB_OVF", 2, "ON");
+        }
+        else
+        {
+            ovf_pb = false;
         }
         if (pompeState != (ram->getPompe() ? "on" : "off"))
         {
