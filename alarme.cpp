@@ -47,6 +47,7 @@ void TAlarme::task(void)
         }
         if (ram->getNiveauGrosBassin() > ram->getPartageRam()->alarmeInfo.nvHighGB)
         {
+            screen->dispStr(11, 10, ram->getPartageRam()->alarmeInfo.ackGB);
             if (ram->getPartageRam()->alarmeInfo.ackGB == false)
             {
                 if (activerTempGB == false)
@@ -59,6 +60,7 @@ void TAlarme::task(void)
                 {
                     highGbOnce = true;
                     activerTempGB = false;
+                    activerRepGB = false;
                     ram->setAlarmeHighGbTrigger(true);
                 }
             }
@@ -73,6 +75,7 @@ void TAlarme::task(void)
                 if ((tempsGB.mesure_us() >= (ram->getPartageRam()->alarmeInfo.tmpRepGB * 1000000)))
                 {
                     activerRepGB = false;
+                    ram->setAckGB(false);
                     ram->setAlarmeHighGbTrigger(true);
                 }
             }
