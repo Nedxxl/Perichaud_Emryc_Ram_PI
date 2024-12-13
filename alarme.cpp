@@ -45,10 +45,6 @@ void TAlarme::task(void)
             ram->setEauChaude(false);
             ram->setEauFroide(false);
         }
-        screen->dispStr(11, 10, ram->getPartageRam()->alarmeInfo.ackGB);
-        screen->dispStr(11, 11, ram->getPartageRam()->alarmeInfo.tmpHighGB);
-        screen->dispStr(11, 12, ram->getPartageRam()->alarmeInfo.tmpRepGB);
-        screen->dispStr(11, 13, tempsGB.mesure_us()/1000000);
         if (ram->getNiveauGrosBassin() > ram->getPartageRam()->alarmeInfo.nvHighGB)
         {
             if (ram->getPartageRam()->alarmeInfo.ackGB == false)
@@ -103,6 +99,7 @@ void TAlarme::task(void)
                 {
                     highPbOnce = true;
                     activerTempPB = false;
+                    activerRepPB = false;
                     ram->setAlarmeHighPbTrigger(true);
                 }
             }
@@ -117,6 +114,7 @@ void TAlarme::task(void)
                 if ((tempsPB.mesure_us() >= (ram->getPartageRam()->alarmeInfo.tmpRepPB * 1000000)))
                 {
                     activerRepPB = false;
+                    ram->setAckPB(false);
                     ram->setAlarmeHighPbTrigger(true);
                 }
             }

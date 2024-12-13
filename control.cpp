@@ -19,8 +19,8 @@ void TControl::task(void)
     {
     // variable locale
     char strCar[2] = {'-','\0'};
-    TPid pidGros(4.5,1.11111,0.05,0.0,100.0);
-    TPid pidPetit(2.0,0.75,0.05,0.0,100.0);
+    TPid pidGros(5,2,0.05,0.0,100.0);
+    TPid pidPetit(2.0,0.6,0.05,0.0,100.0);
     TPid pidTempFroid(10.0,0.5,0.05,0.0,100.0);
     TPid pidTempChaud(10.0,0.5,0.05,0.0,100.0);
     double valueGB;
